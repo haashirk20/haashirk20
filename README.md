@@ -5,7 +5,7 @@
 
 - 🌱 I’m currently learning **Unity, Unreal Engine and ML technologies**
 
-- 📫 How to reach me **haashir.khan@mail.utoronto.ca**
+- 📫 You can reach me at **haashir.khan@mail.utoronto.ca**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
