@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Haashir!</h1>
 <h3 align="center">A passionate and hardworking software developer at UofT</h3>
 
-- 🔭 I’m currently working on an [Interactive Chatbot](https://github.com/haashirk20/ai-chatbot)
+- 🔭 I’m currently working on an [Interactive Spotify Chatbot](https://github.com/haashirk20/ai-chatbot)
 
 - 🌱 I’m currently learning **Unity, Unreal Engine and ML technologies**
 
