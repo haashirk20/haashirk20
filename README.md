@@ -3,7 +3,7 @@
 
 - 🔭 I’m currently working on an [Interactive Spotify Chatbot](https://github.com/haashirk20/ai-chatbot)
 
-- 🌱 I’m currently learning **Unity, Unreal Engine and ML technologies**
+- 🌱 I’m currently learning **Unity, Unreal Engine, C++, Rust and ML technologies**
 
 - 📫 You can reach me at **haashir.khan@mail.utoronto.ca**
 
