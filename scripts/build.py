@@ -171,11 +171,13 @@ def header(t):
     return svg(w, h, body, style, "Haashir Khan, AI and DevOps Engineer")
 
 
+W = 880  # shared width of every full-width asset, matching the README tables
+
 PHRASES = ["multi-agent AI platforms", "cloud infrastructure", "automation"]
 
 
 def typing(t):
-    w, h, size = 520, 52, 22
+    w, h, size = W, 52, 22
     prompt, pw = text_path("$ building", MONO, size, 22, 34)
     f = font(MONO)
     cw = f["hmtx"][f.getBestCmap()[ord("a")]][0] * size / f["head"].unitsPerEm  # monospace advance
@@ -216,15 +218,7 @@ def typing(t):
     return svg(w, h, body, "".join(css), "Building multi-agent AI platforms, cloud infrastructure and automation")
 
 
-
-
-
-
-
-
-
-
-def strip(t, index, label, w=560, h=56):
+def strip(t, index, label, w=W, h=56):
     """Section heading: index, tracked label, hairline."""
     idx, _ = text_path(index, JOST, 13, 28, 34, tracking=0.2)
     lab, lw = text_path(label, JOST, 13, 84, 34, tracking=0.32)
@@ -235,80 +229,36 @@ def strip(t, index, label, w=560, h=56):
     return svg(w, h, body, "", label.title())
 
 
-
-
-
-
 # Each project is a world, tinted after the site's planet accents.
 PROJECTS = [
-    {
-        "slug": "autodocs", "name": "AutoDocs", "year": "2026", "kind": "gas", "tint": "#D2AD86", "seed": 3,
-        "pitch": "Turns asciinema terminal recordings into structured documentation with a fine-tuned Phi-4 pipeline. Mentored by the Linux Foundation and the Human Feedback Foundation.",
-        "stack": "NEXT.JS · POSTGRESQL · PYTORCH · PHI-4",
-        "repo": "https://github.com/CSC392-CSC492-Building-AI-ML-systems/AutoDocs-Winter2026",
-        "demo": ("Demo video", "https://drive.google.com/file/d/1ssCTLpFQCOF0IWctK1j3NYFi1jjNiI9B/view"),
-    },
-    {
-        "slug": "nfl-moe", "name": "NFL Mixture of Experts", "year": "2024", "kind": "rock", "tint": "#D48A62", "seed": 5,
-        "pitch": "Predicts pass or run from pre-snap NFL Big Data Bowl 2025 data, with a gating network that weighs a CNN, an RNN and an MLP expert.",
-        "stack": "PYTHON · PYTORCH · PANDAS",
-        "repo": "https://github.com/ShishirAravindan/nfl-prediction-MoE",
-        "demo": None,
-    },
-    {
-        "slug": "ploggo", "name": "PlogGo", "year": "2025", "kind": "rock", "tint": "#8FB3D4", "seed": 8,
-        "pitch": "Plogging app for web, iOS and Android that spots litter in your photos with a server-side detection model.",
-        "stack": "REACT NATIVE · EXPO · FLASK · MONGODB · PYTORCH",
-        "repo": "https://github.com/gdgutm/PlogGo",
-        "demo": None,
-    },
-    {
-        "slug": "discover-me", "name": "Discover Me", "year": "2025", "kind": "gas", "tint": "#86A8E0", "seed": 12,
-        "pitch": "DeerHacks IV web app that matches travellers to destinations from a personality quiz and shows each place in Google Maps and Street View.",
-        "stack": "NEXT.JS · REACT · OPENAI API · GOOGLE MAPS",
-        "repo": "https://github.com/AviGhat/deerhacks2025",
-        "demo": ("Live site", "https://deerhacks2025.vercel.app/"),
-    },
-    {
-        "slug": "texchange", "name": "TexChange", "year": "2025", "kind": "gas", "tint": "#DCCAA0", "seed": 21,
-        "pitch": "Anonymous text chat roulette. Socket.IO pairs strangers into private rooms and puts them back in the queue on a swap or a disconnect.",
-        "stack": "REACT · EXPRESS · SOCKET.IO · DOCKER",
-        "repo": "https://github.com/haashirk20/texchange",
-        "demo": None,
-    },
+    {"slug": "autodocs", "kind": "gas", "tint": "#D2AD86", "seed": 3},
+    {"slug": "nfl-moe", "kind": "rock", "tint": "#D48A62", "seed": 5},
+    {"slug": "ploggo", "kind": "rock", "tint": "#8FB3D4", "seed": 8},
+    {"slug": "discover-me", "kind": "gas", "tint": "#86A8E0", "seed": 12},
+    {"slug": "texchange", "kind": "gas", "tint": "#DCCAA0", "seed": 21},
 ]
-
-
-
-
-
-
-
-
-
 
 
 CHANNELS = [
     ("01", "WEB", "haashirkhan.com"),
-    ("02", "LINKEDIN", "linkedin.com/in/haashir-khan"),
+    ("02", "LINKEDIN", "in/haashir-khan"),
     ("03", "EMAIL", "haashirk2003@gmail.com"),
 ]
 
 
 def channel(t, i):
-    w, h = 560, 72
+    w, h = 288, 80
     ch, label, value = CHANNELS[i]
     ink = t["ink"]
-    c, _ = text_path(f"CH {ch}", MONO, 12, 28, 41, tracking=0.08)
-    lab, _ = text_path(label, JOST, 11, 116, 30, tracking=0.32)
-    val, _ = text_path(value, SANS, 18, 116, 54)
+    c, cw = text_path(f"CH {ch}", MONO, 12, 18, 30, tracking=0.08)
+    lab, _ = text_path(label, JOST, 11, 18 + cw + 14, 30, tracking=0.32)
+    val, _ = text_path(value, SANS, 17, 18, 60)
     bars = "".join(
-        f'<rect class="b" x="{500 + k * 9}" y="{46 - 6 - k * 5}" width="4" height="{6 + k * 5}" fill="{ink}" style="animation-delay:{k * 0.5 + i * 0.3:.1f}s"/>'
+        f'<rect class="b" x="{250 + k * 7}" y="{30 - 5 - k * 4}" width="3" height="{5 + k * 4}" fill="{ink}" style="animation-delay:{k * 0.5 + i * 0.3:.1f}s"/>'
         for k in range(4)
     )
     body = (
         f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{t["line"]}"/>'
-        f'<rect x="96" y="1" width="1" height="{h - 2}" fill="{ink}" fill-opacity="{t["line"]}"/>'
         f'<path d="{c}" fill="{t["accent"]}"/><path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/><path d="{val}" fill="{ink}"/>' + bars
     )
     style = ".b { opacity: .35; animation: sig 3.2s ease-in-out infinite; } @keyframes sig { 0%,100% { opacity: .25 } 50% { opacity: .85 } }"
@@ -316,7 +266,7 @@ def channel(t, i):
 
 
 def footer(t):
-    w, h = 560, 150
+    w, h = W, 150
     ink = t["ink"]
     rng = random.Random(30)
     end, _ = text_path("END OF TRANSMISSION", JOST, 11, w / 2, 134, tracking=0.36, anchor="middle")
@@ -334,14 +284,14 @@ def footer(t):
     )
     style = (
         TWINKLE
-        + " .drift { animation: drift 60s linear infinite; } @keyframes drift { from { transform: translate(40px, 78px) } to { transform: translate(520px, 52px) } }"
+        + " .drift { animation: drift 60s linear infinite; } @keyframes drift { from { transform: translate(40px, 78px) } to { transform: translate(840px, 48px) } }"
         " .tilt { animation: tilt 12s ease-in-out infinite alternate; } @keyframes tilt { from { transform: rotate(-8deg) } to { transform: rotate(6deg) } }"
         " .beacon { animation: beacon 4s ease-in-out infinite; } @keyframes beacon { 0%,100% { opacity: .2 } 50% { opacity: 1 } }"
-        " @media (prefers-reduced-motion: reduce) { .drift { transform: translate(280px, 66px) } }"
+        " @media (prefers-reduced-motion: reduce) { .drift { transform: translate(440px, 64px) } }"
     )
     body = (
         f'<rect width="{w}" height="{h}" fill="{t["bg"]}" fill-opacity="0"/>'
-        + stars(rng, t, 0, 0, w, 110, 40)
+        + stars(rng, t, 0, 0, w, 110, 64)
         + f'<rect x="0" y="112" width="{w}" height="1" fill="{ink}" fill-opacity="{t["line"]}"/>'
         + sat + f'<path d="{end}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
     )

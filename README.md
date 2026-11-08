@@ -1,11 +1,11 @@
 <a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/header-light.svg"><img alt="Haashir Khan, AI and DevOps Engineer" src="assets/header-dark.svg" width="100%"></picture></a>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/typing-light.svg"><img alt="Building multi-agent AI platforms, cloud infrastructure and automation" src="assets/typing-dark.svg" width="520"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/typing-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/typing-light.svg"><img alt="Building multi-agent AI platforms, cloud infrastructure and automation" src="assets/typing-dark.svg" width="100%"></picture>
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/orbit-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/orbit-light.svg"><img alt="01 Orbit" src="assets/orbit-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/orbit-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/orbit-light.svg"><img alt="01 Orbit" src="assets/orbit-dark.svg" width="100%"></picture>
 </p>
 
 <table>
@@ -37,7 +37,7 @@ AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent R
 </table>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img alt="02 Stack" src="assets/stack-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img alt="02 Stack" src="assets/stack-dark.svg" width="100%"></picture>
 </p>
 
 <table>
@@ -72,7 +72,7 @@ AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent R
 </table>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/launched-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/launched-light.svg"><img alt="03 Launched" src="assets/launched-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/launched-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/launched-light.svg"><img alt="03 Launched" src="assets/launched-dark.svg" width="100%"></picture>
 </p>
 
 <table>
@@ -132,21 +132,19 @@ The full project list and résumé are on my site.<br>
 </table>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-light.svg"><img alt="GitHub telemetry: contributions, streaks, public repositories and language mix" src="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-light.svg"><img alt="GitHub telemetry: contributions, streaks, public repositories and language mix" src="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg" width="100%"></picture>
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg"><img alt="05 Activity" src="assets/activity-dark.svg" width="560"></picture><br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-light.svg"><img alt="Contribution graph as a field of stars eaten by a snake" src="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg"><img alt="05 Activity" src="assets/activity-dark.svg" width="100%"></picture><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-light.svg"><img alt="Contribution graph as a field of stars eaten by a snake" src="https://raw.githubusercontent.com/haashirk20/haashirk20/output/snake-dark.svg" width="100%"></picture>
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/comms-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/comms-light.svg"><img alt="06 Comms" src="assets/comms-dark.svg" width="560"></picture><br>
-<a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-1-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-1-light.svg"><img alt="Web: haashirkhan.com" src="assets/channel-1-dark.svg" width="560"></picture></a><br>
-<a href="https://www.linkedin.com/in/haashir-khan/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-2-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-2-light.svg"><img alt="LinkedIn: linkedin.com/in/haashir-khan" src="assets/channel-2-dark.svg" width="560"></picture></a><br>
-<a href="mailto:haashirk2003@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-3-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-3-light.svg"><img alt="Email: haashirk2003@gmail.com" src="assets/channel-3-dark.svg" width="560"></picture></a>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/comms-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/comms-light.svg"><img alt="06 Comms" src="assets/comms-dark.svg" width="100%"></picture><br>
+<a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-1-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-1-light.svg"><img alt="Web: haashirkhan.com" src="assets/channel-1-dark.svg" width="32.9%"></picture></a><a href="https://www.linkedin.com/in/haashir-khan/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-2-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-2-light.svg"><img alt="LinkedIn: linkedin.com/in/haashir-khan" src="assets/channel-2-dark.svg" width="32.9%"></picture></a><a href="mailto:haashirk2003@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-3-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-3-light.svg"><img alt="Email: haashirk2003@gmail.com" src="assets/channel-3-dark.svg" width="32.9%"></picture></a>
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/footer-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/footer-light.svg"><img alt="A satellite drifting past. End of transmission." src="assets/footer-dark.svg" width="560"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/footer-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/footer-light.svg"><img alt="A satellite drifting past. End of transmission." src="assets/footer-dark.svg" width="100%"></picture>
 </p>

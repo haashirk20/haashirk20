@@ -12,7 +12,7 @@ import urllib.request
 from collections import Counter
 from pathlib import Path
 
-from build import JOST, JOST_MED, MONO, THEMES, num, svg, text_path
+from build import JOST, JOST_MED, MONO, THEMES, W, num, svg, text_path
 
 
 def card(t, w, h, index, label):
@@ -88,52 +88,60 @@ def summarize(user):
 
 
 def telemetry(t, s):
-    w, h = 560, 400
-    ink = t["ink"]
+    """One wide card in three zones: readouts, weekly trace, language mix."""
+    w, h = W, 236
+    ink, line = t["ink"], t["line"]
     parts = [card(t, w, h, "04", "TELEMETRY")]
-    up, _ = text_path(f"UPDATED {s['updated']}", MONO, 10.5, 532, 48, anchor="end")
+    up, _ = text_path(f"UPDATED {s['updated']}", MONO, 10.5, w - 24, 48, anchor="end")
     parts.append(f'<path d="{up}" fill="{ink}" fill-opacity="{t["dim"]}"/>')
+    for x in (494, 700):
+        parts.append(f'<rect x="{x}" y="80" width="1" height="132" fill="{ink}" fill-opacity="{line}"/>')
+
+    # Zone 1: four readouts in a 2x2 grid.
     readouts = [
-        (f"{s['contributions']:,}", "", "CONTRIBUTIONS, PAST YEAR"),
+        (f"{s['contributions']:,}", "", "CONTRIBUTIONS, 12 MO"),
         (str(s["repos"]), "", "PUBLIC REPOSITORIES"),
         (str(s["current"]), "DAYS" if s["current"] != 1 else "DAY", "CURRENT STREAK"),
-        (str(s["longest"]), "DAYS" if s["longest"] != 1 else "DAY", "LONGEST STREAK, PAST YEAR"),
+        (str(s["longest"]), "DAYS" if s["longest"] != 1 else "DAY", "LONGEST STREAK, 12 MO"),
     ]
     for i, (value, unit, label) in enumerate(readouts):
-        x, y = 116 + (i % 2) * 216, 118 + (i // 2) * 76
-        v, vw = text_path(value, JOST_MED, 36, x, y)
-        lab, _ = text_path(label, JOST, 10.5, x, y + 22, tracking=0.26)
+        x, y = 92 + (i % 2) * 200, 120 + (i // 2) * 74
+        v, vw = text_path(value, JOST_MED, 34, x, y)
+        lab, _ = text_path(label, JOST, 10.5, x, y + 21, tracking=0.2)
         parts.append(f'<path d="{v}" fill="{ink}"/><path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>')
         if unit:
-            u, _ = text_path(unit, JOST, 12, x + vw + 8, y, tracking=0.2)
+            u, _ = text_path(unit, JOST, 11.5, x + vw + 8, y, tracking=0.2)
             parts.append(f'<path d="{u}" fill="{t["accent"]}"/>')
-    # Weekly contributions as a thin trace.
+
+    # Zone 2: weekly contributions as a thin trace.
     weekly = s["weekly"]
-    x0, x1, base, height = 116, 532, 296, 40
+    x0, x1, base, height = 518, 676, 196, 70
     peak = max(weekly) or 1
     pts = [(x0 + (x1 - x0) * i / max(len(weekly) - 1, 1), base - height * c / peak) for i, c in enumerate(weekly)]
-    line = " ".join(f"{num(x)},{num(y)}" for x, y in pts)
-    lab, _ = text_path("WEEKLY CONTRIBUTIONS", JOST, 10.5, x0, base - height - 10, tracking=0.26)
+    trace = " ".join(f"{num(x)},{num(y)}" for x, y in pts)
+    lab, _ = text_path("WEEKLY CONTRIBUTIONS", JOST, 10.5, x0, 98, tracking=0.2)
     parts.append(
         f'<path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
-        f'<rect x="{x0}" y="{base}" width="{x1 - x0}" height="1" fill="{ink}" fill-opacity="{t["line"]}"/>'
-        f'<polygon points="{x0},{base} {line} {x1},{base}" fill="{t["accent"]}" fill-opacity=".12"/>'
-        f'<polyline points="{line}" fill="none" stroke="{t["accent"]}" stroke-width="1.2" stroke-linejoin="round"/>'
+        f'<rect x="{x0}" y="{base}" width="{x1 - x0}" height="1" fill="{ink}" fill-opacity="{line}"/>'
+        f'<polygon points="{x0},{base} {trace} {x1},{base}" fill="{t["accent"]}" fill-opacity=".12"/>'
+        f'<polyline points="{trace}" fill="none" stroke="{t["accent"]}" stroke-width="1.2" stroke-linejoin="round"/>'
     )
-    # Language mix: one bar in steps of grey, with a legend underneath.
-    by, x = 330, float(x0)
-    shades = [1, 0.72, 0.5, 0.34, 0.22]
-    lx, ly = float(x0), by + 30
-    for (name, frac), op in zip(s["langs"], shades):
-        seg = (x1 - x0) * frac
-        parts.append(f'<rect x="{num(x)}" y="{by}" width="{num(max(seg - 2, 1))}" height="5" fill="{ink}" fill-opacity="{op}"/>')
-        x += seg
-        item, iw = text_path(f"{name.upper()} {frac * 100:.0f}%", JOST, 10.5, lx + 12, ly, tracking=0.2)
-        if lx + 12 + iw > x1:
-            lx, ly = float(x0), ly + 22
-            item, iw = text_path(f"{name.upper()} {frac * 100:.0f}%", JOST, 10.5, lx + 12, ly, tracking=0.2)
-        parts.append(f'<rect x="{num(lx)}" y="{ly - 7}" width="7" height="7" fill="{ink}" fill-opacity="{op}"/><path d="{item}" fill="{ink}" fill-opacity=".85"/>')
-        lx += 12 + iw + 22
+
+    # Zone 3: language mix as labelled rows, so colour is never the only cue.
+    lx, rx = 724, w - 24
+    lab, _ = text_path("LANGUAGES", JOST, 10.5, lx, 98, tracking=0.2)
+    parts.append(f'<path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>')
+    top = s["langs"][0][1] if s["langs"] else 1
+    for i, (name, frac) in enumerate(s["langs"]):
+        y = 124 + i * 20
+        n, _ = text_path(name.upper(), JOST, 10.5, lx, y, tracking=0.16)
+        p, _ = text_path(f"{frac * 100:.0f}%", MONO, 10.5, rx, y, anchor="end")
+        bw = (rx - lx) * frac / top
+        parts.append(
+            f'<path d="{n}" fill="{ink}" fill-opacity=".88"/><path d="{p}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
+            f'<rect x="{lx}" y="{y + 5}" width="{rx - lx}" height="2" fill="{ink}" fill-opacity="{line}"/>'
+            f'<rect x="{lx}" y="{y + 5}" width="{num(max(bw, 2))}" height="2" fill="{ink}" fill-opacity=".8"/>'
+        )
     title = f"Telemetry: {s['contributions']} contributions in the past year, {s['repos']} public repositories"
     return svg(w, h, "".join(parts), "", title)
 
