@@ -15,7 +15,7 @@ import random
 from pathlib import Path
 
 import numpy as np
-from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.pens.basePen import BasePen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.ttLib import TTFont
 from PIL import Image
@@ -50,6 +50,55 @@ def num(v):
     return f"{v:.1f}".rstrip("0").rstrip(".")
 
 
+class RelPen(BasePen):
+    """SVG path pen that writes relative commands. Deltas are taken between rounded points,
+    so rounding error never accumulates; this roughly halves the size of outlined text.
+    The first move is absolute, so paths from separate calls can be concatenated."""
+
+    def __init__(self, glyphset):
+        super().__init__(glyphset)
+        self.out, self.cur, self.start = [], None, None
+
+    def _emit(self, cmd, *pts):
+        pts = [(round(x * 10), round(y * 10)) for x, y in pts]
+        if self.cur is None:  # first command: absolute
+            self.out.append(cmd.upper() + _fmt([v for p in pts for v in p]))
+        else:
+            # Every point in a relative command is measured from the command's start point.
+            self.out.append(cmd + _fmt([v for p in pts for v in (p[0] - self.cur[0], p[1] - self.cur[1])]))
+        self.cur = pts[-1]
+
+    def _moveTo(self, pt):
+        self._emit("m", pt)
+        self.start = self.cur
+
+    def _lineTo(self, pt):
+        self._emit("l", pt)
+
+    def _qCurveToOne(self, p1, p2):
+        self._emit("q", p1, p2)
+
+    def _curveToOne(self, p1, p2, p3):
+        self._emit("c", p1, p2, p3)
+
+    def _closePath(self):
+        self.out.append("z")
+        self.cur = self.start
+
+    def getCommands(self):
+        return "".join(self.out)
+
+
+def _fmt(vals):
+    """Tenths of a pixel to compact SVG numbers: 15 -> 1.5, -5 -> -.5."""
+    out = ""
+    for v in vals:
+        n = f"{v / 10:.1f}".rstrip("0").rstrip(".")
+        n = n.replace("0.", ".", 1) if n.startswith("0.") else n.replace("-0.", "-.", 1)
+        out += n if (not out or n.startswith("-")) else " " + n
+    return out
+
+
 def text_path(s, fname, size, x=0.0, y=0.0, tracking=0.0, anchor="start"):
     """Return (path d, width) for s set in fname at size px, baseline at y. tracking is in em."""
     f = font(fname)
@@ -62,7 +111,7 @@ def text_path(s, fname, size, x=0.0, y=0.0, tracking=0.0, anchor="start"):
         x -= width / 2
     elif anchor == "end":
         x -= width
-    pen = SVGPathPen(glyphs, ntos=num)
+    pen = RelPen(glyphs)
     cx = x
     for n, a in zip(names, adv):
         glyphs[n].draw(TransformPen(pen, (scale, 0, 0, -scale, cx, y)))
@@ -229,14 +278,176 @@ def strip(t, index, label, w=W, h=56):
     return svg(w, h, body, "", label.title())
 
 
+def card(t, w, h, index, label):
+    """Section card: sharp hairline frame, an index column, and a tracked label, like a magazine layout."""
+    ink, line = t["ink"], t["line"]
+    idx, _ = text_path(index, JOST, 13, 28, 48, tracking=0.2)
+    lab, _ = text_path(label, JOST, 13, 84, 48, tracking=0.32)
+    return (
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{line}"/>'
+        f'<rect x="64" y="1" width="1" height="{h - 2}" fill="{ink}" fill-opacity="{line}"/>'
+        f'<path d="{idx}" fill="{t["accent"]}"/>'
+        f'<path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
+    )
+
+
+def wrap(s, fname, size, maxw):
+    """Greedy word wrap by measured width."""
+    lines, cur = [], ""
+    for word in s.split():
+        trial = f"{cur} {word}".strip()
+        if cur and text_path(trial, fname, size)[1] > maxw:
+            lines.append(cur)
+            cur = word
+        else:
+            cur = trial
+    return lines + [cur]
+
+
+def paragraph(t, s, x, y, maxw, size=15.5, lead=23, opacity=0.9, fname=SANS):
+    """Wrapped body text. Returns (svg, y after the last line)."""
+    lines = wrap(s, fname, size, maxw)
+    d = "".join(text_path(line, fname, size, x, y + i * lead)[0] for i, line in enumerate(lines))
+    return f'<path d="{d}" fill="{t["ink"]}" fill-opacity="{opacity}"/>', y + (len(lines) - 1) * lead
+
+
+def chips(t, items, x, y, maxw, size=12):
+    """Outlined mono labels that wrap onto new rows. y is the top of the first row. Returns (svg, bottom y)."""
+    out, cx, cy, h, gap = [], x, y, 24, 7
+    for item in items:
+        d, tw = text_path(item, MONO, size, 0, 0)
+        cw = tw + 18
+        if cx > x and cx + cw > x + maxw:
+            cx, cy = x, cy + h + gap
+        d, _ = text_path(item, MONO, size, cx + 9, cy + 16.5)
+        out.append(
+            f'<rect x="{num(cx + .5)}" y="{cy + .5}" width="{num(cw - 1)}" height="{h - 1}" rx="3" fill="none" stroke="{t["ink"]}" stroke-opacity=".26"/>'
+            f'<path d="{d}" fill="{t["ink"]}" fill-opacity=".92"/>'
+        )
+        cx += cw + gap
+    return "".join(out), cy + h
+
+
+def kicker(t, s, x, y, color=None):
+    d, _ = text_path(s, JOST, 11, x, y, tracking=0.3)
+    return f'<path d="{d}" fill="{color or t["ink"]}" fill-opacity="{1 if color else t["dim"]}"/>'
+
+
+COL_L, COL_R, COL_W = 92, 518, 338  # two content columns inside a full-width card
+
+
+EXPERIENCE = [
+    ("AI Solutions Engineer Co-op", "Magna International · Aug 2026 to now"),
+    ("Automation and Systems Analyst Intern", "Perimeter Institute · Aug to Dec 2025"),
+    ("Software, Cloud and DevOps Intern", "Perimeter Institute · May to Aug 2025"),
+]
+
+
+def orbit(t):
+    ink = t["ink"]
+    left = [kicker(t, "NOW", COL_L, 92)]
+    p, y = paragraph(t, "AI Solutions Engineer Co-op at Magna International. I build multi-agent RAG platforms on Databricks "
+                        "with LangGraph, and the CI/CD, containers and cloud infrastructure that keep them running.",
+                     COL_L, 122, COL_W + 40)
+    left.append(p)
+    p, y = paragraph(t, "Based in Toronto. Studied computer science at the University of Toronto.", COL_L, y + 34, COL_W + 40,
+                     size=13.5, lead=20, opacity=t["dim"])
+    left.append(p)
+    right = [kicker(t, "MISSION LOG", COL_R, 92)]
+    for i, (role, meta) in enumerate(EXPERIENCE):
+        ey = 124 + i * 58
+        r, _ = text_path(role, JOST_MED, 16.5, COL_R + 20, ey)
+        m, _ = text_path(meta, SANS, 13.5, COL_R + 20, ey + 22)
+        right.append(
+            f'<circle cx="{COL_R + 4}" cy="{ey - 6}" r="3.5" fill="{t["accent"] if i == 0 else t["bg"]}" stroke="{t["accent"] if i == 0 else ink}" stroke-opacity="{1 if i == 0 else .5}"/>'
+            f'<path d="{r}" fill="{ink}"/><path d="{m}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
+        )
+    right.append(f'<rect x="{COL_R + 4}" y="124" width="1" height="110" fill="{ink}" fill-opacity="{t["line"] * 2}"/>')
+    h = max(y, 124 + 2 * 58 + 22) + 36
+    body = (card(t, W, h, "01", "ORBIT") + f'<rect x="494" y="76" width="1" height="{h - 100}" fill="{ink}" fill-opacity="{t["line"]}"/>'
+            + "".join(left) + "".join(right))
+    return svg(W, h, body, "", "Orbit: AI Solutions Engineer Co-op at Magna International; previously two internships at Perimeter Institute")
+
+
+STACK = [
+    ("AI AND ML", ["LLMs", "RAG", "Multi-agent systems", "LangGraph", "LangChain", "Databricks Mosaic AI", "Vector Search", "PyTorch", "TensorFlow", "scikit-learn", "Computer vision / OCR"]),
+    ("CLOUD AND INFRASTRUCTURE", ["AWS", "Azure", "Databricks", "Docker", "Kubernetes", "Linux"]),
+    ("CI/CD AND AUTOMATION", ["GitHub Actions", "Ansible", "PowerShell", "Bash", "Power Automate"]),
+    ("LANGUAGES AND DATA", ["Python", "TypeScript", "Java", "Go", "C", "PostgreSQL", "MongoDB", "FastAPI", "Next.js", "React", "Spring Boot"]),
+]
+
+
+def stack(t):
+    ink = t["ink"]
+    parts, y0 = [], 84
+    for row in (STACK[:2], STACK[2:]):
+        bottoms = []
+        for (label, items), x in zip(row, (COL_L, COL_R)):
+            parts.append(kicker(t, label, x, y0 + 10, t["accent"]))
+            c, b = chips(t, items, x, y0 + 24, COL_W + (40 if x == COL_L else 0))
+            parts.append(c)
+            bottoms.append(b)
+        y_end = max(bottoms)
+        if row is STACK[:2]:
+            parts.append(f'<rect x="65" y="{y_end + 18}" width="{W - 66}" height="1" fill="{ink}" fill-opacity="{t["line"]}"/>')
+        y0 = y_end + 34
+    h = y0 - 34 + 30
+    body = card(t, W, h, "02", "STACK") + f'<rect x="494" y="76" width="1" height="{h - 100}" fill="{ink}" fill-opacity="{t["line"]}"/>' + "".join(parts)
+    return svg(W, h, body, "", "Stack: " + "; ".join(f"{g.title()}: {', '.join(i)}" for g, i in STACK))
+
+
 # Each project is a world, tinted after the site's planet accents.
 PROJECTS = [
-    {"slug": "autodocs", "kind": "gas", "tint": "#D2AD86", "seed": 3},
-    {"slug": "nfl-moe", "kind": "rock", "tint": "#D48A62", "seed": 5},
-    {"slug": "ploggo", "kind": "rock", "tint": "#8FB3D4", "seed": 8},
-    {"slug": "discover-me", "kind": "gas", "tint": "#86A8E0", "seed": 12},
-    {"slug": "texchange", "kind": "gas", "tint": "#DCCAA0", "seed": 21},
+    {"slug": "autodocs", "name": "AutoDocs", "year": "2026", "kind": "gas", "tint": "#D2AD86", "seed": 3,
+     "pitch": "Turns asciinema terminal recordings into structured documentation with a fine-tuned Phi-4 pipeline. Mentored by the Linux Foundation.",
+     "stack": ["Next.js", "PostgreSQL", "PyTorch"], "demo": "DEMO VIDEO",
+     "repo": "https://github.com/CSC392-CSC492-Building-AI-ML-systems/AutoDocs-Winter2026",
+     "demo_url": "https://drive.google.com/file/d/1ssCTLpFQCOF0IWctK1j3NYFi1jjNiI9B/view"},
+    {"slug": "nfl-moe", "name": "NFL Mixture of Experts", "year": "2024", "kind": "rock", "tint": "#D48A62", "seed": 5,
+     "pitch": "Predicts pass or run from pre-snap Big Data Bowl data, with a gating network over CNN, RNN and MLP experts.",
+     "stack": ["PyTorch", "pandas"], "demo": None, "repo": "https://github.com/ShishirAravindan/nfl-prediction-MoE"},
+    {"slug": "ploggo", "name": "PlogGo", "year": "2025", "kind": "rock", "tint": "#8FB3D4", "seed": 8,
+     "pitch": "Plogging app for web, iOS and Android that spots litter in photos with a server-side detection model.",
+     "stack": ["React Native", "Expo", "Flask", "MongoDB"], "demo": None, "repo": "https://github.com/gdgutm/PlogGo"},
+    {"slug": "discover-me", "name": "Discover Me", "year": "2025", "kind": "gas", "tint": "#86A8E0", "seed": 12,
+     "pitch": "DeerHacks IV app that matches travellers to destinations from a personality quiz, with Google Maps and Street View.",
+     "stack": ["Next.js", "OpenAI API", "Google Maps"], "demo": "LIVE SITE", "repo": "https://github.com/AviGhat/deerhacks2025",
+     "demo_url": "https://deerhacks2025.vercel.app/"},
+    {"slug": "texchange", "name": "TexChange", "year": "2025", "kind": "gas", "tint": "#DCCAA0", "seed": 21,
+     "pitch": "Anonymous text chat roulette. Socket.IO pairs strangers into private rooms and re-queues them on a swap.",
+     "stack": ["React", "Express", "Socket.IO", "Docker"], "demo": None, "repo": "https://github.com/haashirk20/texchange"},
 ]
+PW, PH = W // 2, 206  # project card size: two per row
+
+
+def project(t, p):
+    ink = t["ink"]
+    planet = webp(render.planet(72, p["kind"], p["tint"], p["seed"]), 85)
+    name, nw = text_path(p["name"], JOST_MED, 20, 64, 46)
+    year, _ = text_path(p["year"], MONO, 11.5, PW - 24, 44, anchor="end")
+    pitch, y = paragraph(t, p["pitch"], 24, 84, PW - 48, size=14.5, lead=21)
+    c, _ = chips(t, p["stack"], 24, y + 18, PW - 48, size=11.5)
+    links = kicker(t, "REPO", 24, PH - 22, t["accent"])
+    if p["demo"]:
+        rw = text_path("REPO", JOST, 11, 0, 0, tracking=0.3)[1]
+        links += kicker(t, "·   " + p["demo"], 24 + rw + 12, PH - 22, t["accent"])
+    body = (
+        f'<rect x=".5" y=".5" width="{PW - 1}" height="{PH - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{t["line"]}"/>'
+        f'<image href="{planet}" x="22" y="22" width="30" height="30"/>'
+        f'<path d="{name}" fill="{ink}"/><path d="{year}" fill="{ink}" fill-opacity="{t["dim"]}"/>' + pitch + c + links
+    )
+    return svg(PW, PH, body, "", f'{p["name"]}: {p["pitch"]}')
+
+
+def more(t):
+    ink = t["ink"]
+    name, _ = text_path("More launches", JOST_MED, 20, 24, 46)
+    p, _ = paragraph(t, "The full project list and résumé are on my site.", 24, 84, PW - 48, size=14.5, lead=21)
+    body = (
+        f'<rect x=".5" y=".5" width="{PW - 1}" height="{PH - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{t["line"]}"/>'
+        f'<path d="{name}" fill="{ink}"/>' + p + kicker(t, "HAASHIRKHAN.COM", 24, PH - 22, t["accent"])
+    )
+    return svg(PW, PH, body, "", "More projects at haashirkhan.com")
 
 
 CHANNELS = [
@@ -301,9 +512,11 @@ def footer(t):
 BUILDS = {
     "header": header,
     "typing": typing,
-    "orbit": lambda t: strip(t, "01", "ORBIT"),
-    "stack": lambda t: strip(t, "02", "STACK"),
+    "orbit": orbit,
+    "stack": stack,
     "launched": lambda t: strip(t, "03", "LAUNCHED"),
+    **{f"project-{p['slug']}": (lambda p: lambda t: project(t, p))(p) for p in PROJECTS},
+    "project-more": more,
     "activity": lambda t: strip(t, "05", "ACTIVITY"),
     "comms": lambda t: strip(t, "06", "COMMS"),
     **{f"channel-{i + 1}": (lambda i: lambda t: channel(t, i))(i) for i in range(len(CHANNELS))},
@@ -319,8 +532,4 @@ if __name__ == "__main__":
             p.write_text(fn(t), encoding="utf-8")
             total += p.stat().st_size
             print(f"{p.relative_to(ROOT)}  {p.stat().st_size / 1024:.1f} KB")
-    # Small planet icons for the project grid in the README.
-    for p in PROJECTS:
-        Image.fromarray((render.planet(48, p["kind"], p["tint"], p["seed"]) * 255).astype("uint8"), "RGBA").save(OUT / f"planet-{p['slug']}.png", optimize=True)
-        total += (OUT / f"planet-{p['slug']}.png").stat().st_size
     print(f"total {total / 1024:.0f} KB")

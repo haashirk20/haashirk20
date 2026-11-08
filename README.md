@@ -5,131 +5,21 @@
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/orbit-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/orbit-light.svg"><img alt="01 Orbit" src="assets/orbit-dark.svg" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/orbit-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/orbit-light.svg"><img alt="Orbit. Now: AI Solutions Engineer Co-op at Magna International, building multi-agent RAG platforms on Databricks with LangGraph. Mission log: Magna International (Aug 2026 to now); Automation and Systems Analyst Intern, Perimeter Institute (Aug to Dec 2025); Software, Cloud and DevOps Intern, Perimeter Institute (May to Aug 2025)" src="assets/orbit-dark.svg" width="100%"></picture>
 </p>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-<b>Now</b>
-
-AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent RAG platforms on Databricks with LangGraph, and the CI/CD, containers and cloud infrastructure that keep them running.
-
-<sub>Based in Toronto. Studied computer science at the University of Toronto.</sub>
-
-</td>
-<td width="50%" valign="top">
-
-<b>Mission log</b>
-
-<b>AI Solutions Engineer Co-op</b><br>
-<sub>Magna International · Aug 2026 to now</sub>
-
-<b>Automation and Systems Analyst Intern</b><br>
-<sub>Perimeter Institute · Aug to Dec 2025</sub>
-
-<b>Software, Cloud and DevOps Intern</b><br>
-<sub>Perimeter Institute · May to Aug 2025</sub>
-
-</td>
-</tr>
-</table>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img alt="02 Stack" src="assets/stack-dark.svg" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img alt="Stack. Ai and ml: LLMs, RAG, Multi-agent systems, LangGraph, LangChain, Databricks Mosaic AI, Vector Search, PyTorch, TensorFlow, scikit-learn, Computer vision / OCR. Cloud and infrastructure: AWS, Azure, Databricks, Docker, Kubernetes, Linux. Ci/cd and automation: GitHub Actions, Ansible, PowerShell, Bash, Power Automate. Languages and data: Python, TypeScript, Java, Go, C, PostgreSQL, MongoDB, FastAPI, Next.js, React, Spring Boot" src="assets/stack-dark.svg" width="100%"></picture>
 </p>
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-<b>AI and ML</b><br>
-<code>LLMs</code> <code>RAG</code> <code>Multi&#8209;agent&nbsp;systems</code> <code>LangGraph</code> <code>LangChain</code> <code>Databricks&nbsp;Mosaic&nbsp;AI</code> <code>Vector&nbsp;Search</code> <code>PyTorch</code> <code>TensorFlow</code> <code>scikit&#8209;learn</code> <code>Computer&nbsp;vision&nbsp;/&nbsp;OCR</code>
-
-</td>
-<td width="50%" valign="top">
-
-<b>Cloud and infrastructure</b><br>
-<code>AWS</code> <code>Azure</code> <code>Databricks</code> <code>Docker</code> <code>Kubernetes</code> <code>Linux</code>
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-<b>CI/CD and automation</b><br>
-<code>GitHub&nbsp;Actions</code> <code>Ansible</code> <code>PowerShell</code> <code>Bash</code> <code>Power&nbsp;Automate</code>
-
-</td>
-<td width="50%" valign="top">
-
-<b>Languages and data</b><br>
-<code>Python</code> <code>TypeScript</code> <code>Java</code> <code>Go</code> <code>C</code> <code>PostgreSQL</code> <code>MongoDB</code> <code>FastAPI</code> <code>Next.js</code> <code>React</code> <code>Spring&nbsp;Boot</code>
-
-</td>
-</tr>
-</table>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/launched-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/launched-light.svg"><img alt="03 Launched" src="assets/launched-dark.svg" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/launched-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/launched-light.svg"><img alt="03 Launched" src="assets/launched-dark.svg" width="100%"></picture><br>
+<a href="https://github.com/CSC392-CSC492-Building-AI-ML-systems/AutoDocs-Winter2026"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-autodocs-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-autodocs-light.svg"><img alt="AutoDocs: Turns asciinema terminal recordings into structured documentation with a fine-tuned Phi-4 pipeline. Mentored by the Linux Foundation." src="assets/project-autodocs-dark.svg" width="50%"></picture></a><a href="https://github.com/ShishirAravindan/nfl-prediction-MoE"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-nfl-moe-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-nfl-moe-light.svg"><img alt="NFL Mixture of Experts: Predicts pass or run from pre-snap Big Data Bowl data, with a gating network over CNN, RNN and MLP experts." src="assets/project-nfl-moe-dark.svg" width="50%"></picture></a><br>
+<a href="https://github.com/gdgutm/PlogGo"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-ploggo-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-ploggo-light.svg"><img alt="PlogGo: Plogging app for web, iOS and Android that spots litter in photos with a server-side detection model." src="assets/project-ploggo-dark.svg" width="50%"></picture></a><a href="https://github.com/AviGhat/deerhacks2025"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-discover-me-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-discover-me-light.svg"><img alt="Discover Me: DeerHacks IV app that matches travellers to destinations from a personality quiz, with Google Maps and Street View." src="assets/project-discover-me-dark.svg" width="50%"></picture></a><br>
+<a href="https://github.com/haashirk20/texchange"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-texchange-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-texchange-light.svg"><img alt="TexChange: Anonymous text chat roulette. Socket.IO pairs strangers into private rooms and re-queues them on a swap." src="assets/project-texchange-dark.svg" width="50%"></picture></a><a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/project-more-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/project-more-light.svg"><img alt="More projects and résumé at haashirkhan.com" src="assets/project-more-dark.svg" width="50%"></picture></a>
 </p>
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/planet-autodocs.png" width="18" height="18" alt=""> <a href="https://github.com/CSC392-CSC492-Building-AI-ML-systems/AutoDocs-Winter2026"><b>AutoDocs</b></a> <sub>2026</sub><br>
-Turns asciinema terminal recordings into structured documentation with a fine-tuned Phi-4 pipeline. Mentored by the Linux Foundation.<br>
-<code>Next.js</code> <code>PostgreSQL</code> <code>PyTorch</code><br>
-<sub><a href="https://github.com/CSC392-CSC492-Building-AI-ML-systems/AutoDocs-Winter2026">Repo</a> · <a href="https://drive.google.com/file/d/1ssCTLpFQCOF0IWctK1j3NYFi1jjNiI9B/view">Demo video</a></sub>
-
-</td>
-<td width="50%" valign="top">
-
-<img src="assets/planet-nfl-moe.png" width="18" height="18" alt=""> <a href="https://github.com/ShishirAravindan/nfl-prediction-MoE"><b>NFL Mixture of Experts</b></a> <sub>2024</sub><br>
-Predicts pass or run from pre-snap Big Data Bowl data, with a gating network over CNN, RNN and MLP experts.<br>
-<code>PyTorch</code> <code>pandas</code><br>
-<sub><a href="https://github.com/ShishirAravindan/nfl-prediction-MoE">Repo</a></sub>
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/planet-ploggo.png" width="18" height="18" alt=""> <a href="https://github.com/gdgutm/PlogGo"><b>PlogGo</b></a> <sub>2025</sub><br>
-Plogging app for web, iOS and Android that spots litter in photos with a server-side detection model.<br>
-<code>React&nbsp;Native</code> <code>Expo</code> <code>Flask</code> <code>MongoDB</code><br>
-<sub><a href="https://github.com/gdgutm/PlogGo">Repo</a></sub>
-
-</td>
-<td width="50%" valign="top">
-
-<img src="assets/planet-discover-me.png" width="18" height="18" alt=""> <a href="https://github.com/AviGhat/deerhacks2025"><b>Discover Me</b></a> <sub>2025</sub><br>
-DeerHacks IV app that matches travellers to destinations from a personality quiz, with Google Maps and Street View.<br>
-<code>Next.js</code> <code>OpenAI&nbsp;API</code> <code>Google&nbsp;Maps</code><br>
-<sub><a href="https://github.com/AviGhat/deerhacks2025">Repo</a> · <a href="https://deerhacks2025.vercel.app/">Live site</a></sub>
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/planet-texchange.png" width="18" height="18" alt=""> <a href="https://github.com/haashirk20/texchange"><b>TexChange</b></a> <sub>2025</sub><br>
-Anonymous text chat roulette. Socket.IO pairs strangers into private rooms and re-queues them on a swap.<br>
-<code>React</code> <code>Express</code> <code>Socket.IO</code> <code>Docker</code><br>
-<sub><a href="https://github.com/haashirk20/texchange">Repo</a></sub>
-
-</td>
-<td width="50%" valign="top">
-
-<b>More</b><br>
-The full project list and résumé are on my site.<br>
-<sub><a href="https://haashirkhan.com">haashirkhan.com</a></sub>
-
-</td>
-</tr>
-</table>
+<p align="center"><sub>Cards open each repository. Demos: <a href="https://drive.google.com/file/d/1ssCTLpFQCOF0IWctK1j3NYFi1jjNiI9B/view">AutoDocs demo video</a> · <a href="https://deerhacks2025.vercel.app/">Discover Me live site</a>.</sub></p>
 
 <p align="center">
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-light.svg"><img alt="GitHub telemetry: contributions, streaks, public repositories and language mix" src="https://raw.githubusercontent.com/haashirk20/haashirk20/output/telemetry-dark.svg" width="100%"></picture>
@@ -142,7 +32,7 @@ The full project list and résumé are on my site.<br>
 
 <p align="center">
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/comms-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/comms-light.svg"><img alt="06 Comms" src="assets/comms-dark.svg" width="100%"></picture><br>
-<a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-1-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-1-light.svg"><img alt="Web: haashirkhan.com" src="assets/channel-1-dark.svg" width="33.33%"></picture></a><a href="https://www.linkedin.com/in/haashir-khan/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-2-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-2-light.svg"><img alt="LinkedIn: linkedin.com/in/haashir-khan" src="assets/channel-2-dark.svg" width="33.33%"></picture></a><a href="mailto:haashirk2003@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-3-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-3-light.svg"><img alt="Email: haashirk2003@gmail.com" src="assets/channel-3-dark.svg" width="33.33%"></picture></a>
+<a href="https://haashirkhan.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-1-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-1-light.svg"><img alt="Web: haashirkhan.com" src="assets/channel-1-dark.svg" width="33.33%"></picture></a><a href="https://www.linkedin.com/in/haashir-khan/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-2-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-2-light.svg"><img alt="Linkedin: in/haashir-khan" src="assets/channel-2-dark.svg" width="33.33%"></picture></a><a href="mailto:haashirk2003@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/channel-3-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/channel-3-light.svg"><img alt="Email: haashirk2003@gmail.com" src="assets/channel-3-dark.svg" width="33.33%"></picture></a>
 </p>
 
 <p align="center">
