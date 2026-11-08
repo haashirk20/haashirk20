@@ -2,7 +2,7 @@
 
 Fonts come from haashirkhan.com (Jost, IBM Plex). Text is converted to outlined paths,
 because GitHub shows README SVGs as images and images can't load web fonts. The galaxy
-and moon are rendered by render.py and embedded as WebP, since an SVG image can't load
+is rendered by render.py and embedded as WebP, since an SVG image can't load
 external files either. Animation is CSS inside each SVG, and every file turns it off
 under prefers-reduced-motion.
 
@@ -216,61 +216,12 @@ def typing(t):
     return svg(w, h, body, "".join(css), "Building multi-agent AI platforms, cloud infrastructure and automation")
 
 
-def card(t, w, h, index, label):
-    """Section card: sharp hairline frame, an index column, and a tracked label, like a magazine layout."""
-    ink, line = t["ink"], t["line"]
-    idx, _ = text_path(index, JOST, 13, 28, 48, tracking=0.2)
-    lab, _ = text_path(label, JOST, 13, 84, 48, tracking=0.32)
-    return (
-        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{line}"/>'
-        f'<rect x="64" y="1" width="1" height="{h - 2}" fill="{ink}" fill-opacity="{line}"/>'
-        f'<path d="{idx}" fill="{t["accent"]}"/>'
-        f'<path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
-    )
 
 
-_moon = None
 
 
-def current_orbit(t):
-    global _moon
-    if _moon is None:
-        _moon = render.moon(440)
-    w, h = 560, 260
-    rng = random.Random(9)
-    ink = t["ink"]
-    title, _ = text_path("AI Solutions Engineer", JOST_MED, 32, 84, 112)
-    org, _ = text_path("Co-op, Magna International", SANS, 18, 84, 146)
-    d1, _ = text_path("Building multi-agent RAG platforms", SANS, 17, 84, 196)
-    d2, _ = text_path("on Databricks with LangGraph.", SANS, 17, 84, 220)
-    m = _moon.copy()
-    if t is THEMES["light"]:
-        # On paper the unlit side should vanish, leaving only the crescent.
-        m[..., 3] *= np.clip((m[..., :3].mean(-1) - 0.06) * 4, 0, 1)
-    moon_uri = webp(m, 76)
-    body = (
-        f'<defs><clipPath id="cc"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="3"/></clipPath></defs>'
-        + card(t, w, h, "01", "CURRENT ORBIT")
-        + f'<g clip-path="url(#cc)">{stars(rng, t, 360, 10, 200, 240, 30)}'
-        f'<image href="{moon_uri}" x="436" y="-20" width="300" height="300"/></g>'
-        f'<path d="{title}" fill="{ink}"/>'
-        f'<path d="{org}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
-        f'<path d="{d1}{d2}" fill="{ink}" fill-opacity=".86"/>'
-    )
-    return svg(w, h, body, TWINKLE, "Current orbit: AI Solutions Engineer Co-op at Magna International, building multi-agent RAG platforms")
 
 
-def wrap(s, fname, size, maxw):
-    """Greedy word wrap by measured width."""
-    lines, cur = [], ""
-    for word in s.split():
-        trial = f"{cur} {word}".strip()
-        if cur and text_path(trial, fname, size)[1] > maxw:
-            lines.append(cur)
-            cur = word
-        else:
-            cur = trial
-    return lines + [cur]
 
 
 def strip(t, index, label, w=560, h=56):
@@ -284,35 +235,8 @@ def strip(t, index, label, w=560, h=56):
     return svg(w, h, body, "", label.title())
 
 
-EXPERIENCE = [
-    ("AUG 2026 · PRESENT", "AI Solutions Engineer Co-op", "Magna International, Milton ON"),
-    ("AUG 2025 · DEC 2025", "Automation and Systems Analyst Intern", "Perimeter Institute for Theoretical Physics"),
-    ("MAY 2025 · AUG 2025", "Software, Cloud and DevOps Intern", "Perimeter Institute for Theoretical Physics"),
-]
 
 
-def mission_log(t):
-    w, h, step = 560, 340, 84
-    ink = t["ink"]
-    parts = [card(t, w, h, "02", "MISSION LOG")]
-    parts.append(f'<rect x="96" y="96" width="1" height="{2 * step + 8}" fill="{ink}" fill-opacity="{t["line"] * 2}"/>')
-    for i, (dates, title, org) in enumerate(EXPERIENCE):
-        y = 100 + i * step
-        d, _ = text_path(dates, MONO, 12, 118, y + 4, tracking=0.08)
-        ti, _ = text_path(title, JOST_MED, 21, 118, y + 30)
-        o, _ = text_path(org, SANS, 15, 118, y + 52)
-        if i == 0:
-            parts.append(f'<circle class="pulse" cx="96.5" cy="{y}" r="9" fill="none" stroke="{t["accent"]}" stroke-width="1"/>')
-        parts.append(f'<circle cx="96.5" cy="{y}" r="4" fill="{t["accent"] if i == 0 else t["bg"]}" stroke="{t["accent"] if i == 0 else ink}" stroke-opacity="{1 if i == 0 else 0.5}"/>')
-        parts.append(
-            f'<path d="{d}" fill="{t["accent"] if i == 0 else ink}" fill-opacity="{1 if i == 0 else t["dim"]}"/>'
-            f'<path d="{ti}" fill="{ink}"/><path d="{o}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
-        )
-    style = (
-        ".pulse { transform-origin: 96.5px 100px; animation: pulse 4s ease-out infinite; }"
-        " @keyframes pulse { 0% { transform: scale(.5); opacity: .8 } 100% { transform: scale(1.8); opacity: 0 } }"
-    )
-    return svg(w, h, "".join(parts), style, "Mission log: Magna International and two terms at Perimeter Institute")
 
 
 # Each project is a world, tinted after the site's planet accents.
@@ -354,128 +278,14 @@ PROJECTS = [
     },
 ]
 
-_planets = {}
 
 
-def planet_uri(p, size=128):
-    key = (p["slug"], size)
-    if key not in _planets:
-        _planets[key] = webp(render.planet(size, p["kind"], p["tint"], p["seed"]), 82)
-    return _planets[key]
 
 
-def project_card(t, p):
-    w = 560
-    ink = t["ink"]
-    lines = wrap(p["pitch"], SANS, 15, 420)
-    h = 128 + 21 * len(lines)
-    name, _ = text_path(p["name"], JOST_MED, 24, 116, 52)
-    year, _ = text_path(p["year"], MONO, 12, 532, 50, anchor="end")
-    pitch = "".join(text_path(s, SANS, 15, 116, 84 + 21 * i)[0] for i, s in enumerate(lines))
-    sy = 84 + 21 * len(lines) + 16
-    stack, _ = text_path(p["stack"], MONO, 11.5, 116, sy, tracking=0.04)
-    tag = ""
-    if p["demo"]:
-        dt, dw = text_path(p["demo"][0].upper(), JOST, 11, 532, sy, tracking=0.24, anchor="end")
-        tag = f'<path d="{dt}" fill="{t["accent"]}"/><circle cx="{num(532 - dw - 12)}" cy="{sy - 4}" r="3" fill="{t["accent"]}"/>'
-    body = (
-        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{t["line"]}"/>'
-        f'<rect x="96" y="1" width="1" height="{h - 2}" fill="{ink}" fill-opacity="{t["line"]}"/>'
-        f'<image href="{planet_uri(p, 112)}" x="20" y="22" width="56" height="56"/>'
-        f'<path d="{name}" fill="{ink}"/><path d="{year}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
-        f'<path d="{pitch}" fill="{ink}" fill-opacity=".86"/>'
-        f'<path d="{stack}" fill="{ink}" fill-opacity="{t["dim"]}"/>' + tag
-    )
-    return svg(w, h, body, "", f'{p["name"]}: {p["pitch"]}')
 
 
-_core = None
 
 
-def system_map(t):
-    """The featured projects as planets orbiting a small galaxy core."""
-    global _core
-    if _core is None:
-        g = render.galaxy(1000)
-        _core = np.asarray(Image.fromarray((g * 255).astype("uint8")).resize((360, 360), Image.LANCZOS)) / 255
-    w, h = 560, 400
-    cx, cy, tilt = 318, 232, -8
-    ink = t["ink"]
-    rng = random.Random(14)
-    core = webp(plate(_core, t), 78)
-    css, orbits, bodies = [], [], []
-    for i, p in enumerate(PROJECTS):
-        rx = 84 + i * 31
-        ry = rx * 0.36
-        a = np.radians(tilt)
-        x1, y1 = cx - rx * np.cos(a), cy - rx * np.sin(a)
-        x2, y2 = cx + rx * np.cos(a), cy + rx * np.sin(a)
-        path = f"M {num(x1)} {num(y1)} A {num(rx)} {num(ry)} {tilt} 1 0 {num(x2)} {num(y2)} A {num(rx)} {num(ry)} {tilt} 1 0 {num(x1)} {num(y1)} Z"
-        start = (i * 37 + 10) % 100
-        period = 70 + i * 28
-        orbits.append(f'<path d="{path}" fill="none" stroke="{ink}" stroke-opacity="{t["line"] * 1.6}" stroke-width="1"/>')
-        css.append(
-            f".o{i} {{ offset-path: path('{path}'); offset-rotate: 0deg; offset-distance: {start}%; animation: o{i} {period}s linear infinite; }}"
-            f" @keyframes o{i} {{ from {{ offset-distance: {start}% }} to {{ offset-distance: {start + 100}% }} }}"
-        )
-        s = 18 + (i % 3) * 4
-        lab, _ = text_path(p["name"].upper(), JOST, 10.5, 0, -s / 2 - 8, tracking=0.22, anchor="middle")
-        bodies.append(
-            f'<g class="o{i}"><image href="{planet_uri(p, 64)}" x="{-s / 2}" y="{-s / 2}" width="{s}" height="{s}"/>'
-            f'<path d="{lab}" fill="{ink}" fill-opacity=".8"/></g>'
-        )
-    body = (
-        f'<defs><clipPath id="sc"><rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="3"/></clipPath>'
-        f'<radialGradient id="cm"><stop offset=".6" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>'
-        f'<mask id="cmk" maskUnits="userSpaceOnUse" x="-100" y="-100" width="200" height="200"><circle r="90" fill="url(#cm)"/></mask></defs>'
-        + card(t, w, h, "04", "SYSTEM MAP")
-        + f'<g clip-path="url(#sc)">{stars(rng, t, 66, 60, 490, 335, 70)}'
-        f'<g transform="translate({cx} {cy}) rotate({tilt}) scale(1 .4)"><g mask="url(#cmk)"><g class="spin"><image href="{core}" x="-90" y="-90" width="180" height="180"/></g></g></g>'
-        + "".join(orbits) + "".join(bodies) + "</g>"
-    )
-    style = TWINKLE + " .spin { animation: spin 240s linear infinite; } @keyframes spin { to { transform: rotate(-360deg) } } " + "".join(css)
-    return svg(w, h, body, style, "System map: " + ", ".join(p["name"] for p in PROJECTS) + " orbiting a galaxy core")
-
-
-# Core stack as three constellations. Positions are hand placed; anchor says which side the label sits on.
-CONSTELLATIONS = [
-    ("INTELLIGENCE", (110, 82), [("Python", 124, 128, "start"), ("PyTorch", 236, 110, "start"), ("LangGraph", 270, 178, "start"), ("Databricks", 150, 214, "start")],
-     [(0, 1), (1, 2), (2, 3), (3, 0)]),
-    ("INFRASTRUCTURE", (528, 82), [("AWS", 392, 124, "start"), ("Azure", 500, 140, "end"), ("Docker", 430, 206, "start"), ("Kubernetes", 512, 262, "end"), ("GitHub Actions", 516, 338, "end")],
-     [(0, 1), (0, 2), (2, 3), (2, 4)]),
-    ("CODE & DATA", (110, 290), [("TypeScript", 130, 330, "start"), ("Go", 250, 296, "start"), ("Java", 228, 380, "start"), ("PostgreSQL", 142, 410, "start")],
-     [(0, 1), (1, 2), (2, 3), (3, 0)]),
-]
-
-
-def constellation(t):
-    w, h = 560, 450
-    ink = t["ink"]
-    rng = random.Random(21)
-    parts, names = [], []
-    for title, (tx, ty), pts, links in CONSTELLATIONS:
-        anchor = "end" if tx > 300 else "start"
-        tp, _ = text_path(title, JOST, 11, tx, ty, tracking=0.32, anchor=anchor)
-        names.append(f'<path d="{tp}" fill="{t["accent"]}"/>')
-        for a, b in links:
-            (_, x1, y1, _), (_, x2, y2, _) = pts[a], pts[b]
-            parts.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{ink}" stroke-opacity=".22" stroke-width="1"/>')
-        for name, x, y, side in pts:
-            dur, delay = rng.uniform(5, 9), rng.uniform(0, 6)
-            parts.append(
-                f'<circle cx="{x}" cy="{y}" r="9" fill="url(#glow)" class="tw" style="animation-duration:{dur:.1f}s;animation-delay:-{delay:.1f}s"/>'
-                f'<circle cx="{x}" cy="{y}" r="2.4" fill="{ink}"/>'
-            )
-            lx = x + 12 if side == "start" else x - 12
-            lp, _ = text_path(name.upper(), JOST, 12.5, lx, y + 4.5, tracking=0.16, anchor=side)
-            parts.append(f'<path d="{lp}" fill="{ink}" fill-opacity=".88"/>')
-    body = (
-        f'<defs><radialGradient id="glow"><stop offset="0" stop-color="{ink}" stop-opacity=".55"/><stop offset="1" stop-color="{ink}" stop-opacity="0"/></radialGradient></defs>'
-        + card(t, w, h, "05", "CONSTELLATION")
-        + stars(rng, t, 70, 64, 480, 376, 80)
-        + "".join(names) + "".join(parts)
-    )
-    return svg(w, h, body, TWINKLE, "Core stack: Python, PyTorch, LangGraph, Databricks, AWS, Azure, Docker, Kubernetes, GitHub Actions, TypeScript, Go, Java, PostgreSQL")
 
 
 CHANNELS = [
@@ -541,14 +351,11 @@ def footer(t):
 BUILDS = {
     "header": header,
     "typing": typing,
-    "current-orbit": current_orbit,
-    "mission-log": mission_log,
+    "orbit": lambda t: strip(t, "01", "ORBIT"),
+    "stack": lambda t: strip(t, "02", "STACK"),
     "launched": lambda t: strip(t, "03", "LAUNCHED"),
-    **{f"project-{p['slug']}": (lambda p: lambda t: project_card(t, p))(p) for p in PROJECTS},
-    "system-map": system_map,
-    "constellation": constellation,
-    "activity": lambda t: strip(t, "07", "ACTIVITY"),
-    "comms": lambda t: strip(t, "08", "COMMS"),
+    "activity": lambda t: strip(t, "05", "ACTIVITY"),
+    "comms": lambda t: strip(t, "06", "COMMS"),
     **{f"channel-{i + 1}": (lambda i: lambda t: channel(t, i))(i) for i in range(len(CHANNELS))},
     "footer": footer,
 }
@@ -562,4 +369,8 @@ if __name__ == "__main__":
             p.write_text(fn(t), encoding="utf-8")
             total += p.stat().st_size
             print(f"{p.relative_to(ROOT)}  {p.stat().st_size / 1024:.1f} KB")
+    # Small planet icons for the project grid in the README.
+    for p in PROJECTS:
+        Image.fromarray((render.planet(48, p["kind"], p["tint"], p["seed"]) * 255).astype("uint8"), "RGBA").save(OUT / f"planet-{p['slug']}.png", optimize=True)
+        total += (OUT / f"planet-{p['slug']}.png").stat().st_size
     print(f"total {total / 1024:.0f} KB")

@@ -12,7 +12,20 @@ import urllib.request
 from collections import Counter
 from pathlib import Path
 
-from build import JOST, JOST_MED, MONO, THEMES, card, num, svg, text_path
+from build import JOST, JOST_MED, MONO, THEMES, num, svg, text_path
+
+
+def card(t, w, h, index, label):
+    """Section card: sharp hairline frame, an index column, and a tracked label, like a magazine layout."""
+    ink, line = t["ink"], t["line"]
+    idx, _ = text_path(index, JOST, 13, 28, 48, tracking=0.2)
+    lab, _ = text_path(label, JOST, 13, 84, 48, tracking=0.32)
+    return (
+        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="3" fill="{t["bg"]}" stroke="{ink}" stroke-opacity="{line}"/>'
+        f'<rect x="64" y="1" width="1" height="{h - 2}" fill="{ink}" fill-opacity="{line}"/>'
+        f'<path d="{idx}" fill="{t["accent"]}"/>'
+        f'<path d="{lab}" fill="{ink}" fill-opacity="{t["dim"]}"/>'
+    )
 
 QUERY = """
 query($login: String!) {
@@ -77,7 +90,7 @@ def summarize(user):
 def telemetry(t, s):
     w, h = 560, 400
     ink = t["ink"]
-    parts = [card(t, w, h, "06", "TELEMETRY")]
+    parts = [card(t, w, h, "04", "TELEMETRY")]
     up, _ = text_path(f"UPDATED {s['updated']}", MONO, 10.5, 532, 48, anchor="end")
     parts.append(f'<path d="{up}" fill="{ink}" fill-opacity="{t["dim"]}"/>')
     readouts = [

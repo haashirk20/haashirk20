@@ -1,4 +1,4 @@
-"""Procedural raster art for the profile: a particle galaxy around a dark core, and a cratered moon.
+"""Procedural raster art for the profile: a particle galaxy around a dark core, and small planets.
 
 Everything is seeded, so a rebuild produces the same images.
 """
@@ -99,36 +99,6 @@ def galaxy(size=1000, seed=4):
         rgb[y - 1:y + 2, x - 1:x + 2] = np.maximum(rgb[y - 1:y + 2, x - 1:x + 2], col * b * 0.35)
     return np.clip(rgb, 0, 1)
 
-
-def moon(size=420, seed=11, light=(-0.92, -0.38, 0.04)):
-    """Cratered grey sphere lit from the given direction. Returns float RGBA, alpha 0 outside the disk."""
-    rng = np.random.default_rng(seed)
-    height = np.zeros((size, size))
-    for octave, amp in ((6, 1.0), (14, 0.5), (34, 0.25), (90, 0.12)):
-        height += zoom(rng.normal(0, 1, (octave, octave)), size / octave, order=3)[:size, :size] * amp
-    yy, xx = np.mgrid[0:size, 0:size] / size
-    for _ in range(140):
-        cx, cy = rng.uniform(0, 1, 2)
-        rad = rng.pareto(2.2) * 0.012 + 0.006
-        d = np.hypot(xx - cx, yy - cy) / rad
-        height += (-0.9 * np.exp(-(d ** 4)) + 0.35 * np.exp(-((d - 1.05) / 0.18) ** 2)) * rad * 30
-    albedo = 0.55 + 0.2 * np.tanh(zoom(rng.normal(0, 1, (5, 5)), size / 5, order=3)[:size, :size])
-
-    u, v = xx * 2 - 1, yy * 2 - 1
-    rr = u ** 2 + v ** 2
-    inside = rr < 1
-    z = np.sqrt(np.clip(1 - rr, 0, 1))
-    gy, gx = np.gradient(gaussian_filter(height, 1.2))
-    n = np.stack([u - gx * 0.9, v - gy * 0.9, z], -1)
-    n /= np.linalg.norm(n, axis=-1, keepdims=True) + 1e-9
-    L = np.array(light) / np.linalg.norm(light)
-    shade = np.clip((n * L).sum(-1), 0, 1) ** 0.9
-    val = np.clip(shade * albedo * 1.35, 0, 1)
-    edge = np.clip((1 - np.sqrt(rr)) * size / 2, 0, 1)  # antialiased limb
-    rgba = np.zeros((size, size, 4))
-    rgba[..., :3] = val[..., None] * np.array([0.98, 0.98, 1.0])
-    rgba[..., 3] = np.where(inside, edge, 0)
-    return rgba
 
 
 def planet(size=128, kind="gas", tint="#D2AD86", seed=1, light=(-0.55, -0.5, 0.67)):
