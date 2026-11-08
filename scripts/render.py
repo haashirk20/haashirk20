@@ -129,3 +129,33 @@ def moon(size=420, seed=11, light=(-0.92, -0.38, 0.04)):
     rgba[..., :3] = val[..., None] * np.array([0.98, 0.98, 1.0])
     rgba[..., 3] = np.where(inside, edge, 0)
     return rgba
+
+
+def planet(size=128, kind="gas", tint="#D2AD86", seed=1, light=(-0.55, -0.5, 0.67)):
+    """Small shaded planet: banded gas giant or rocky world, muted toward grey. Returns float RGBA."""
+    rng = np.random.default_rng(seed)
+    yy, xx = np.mgrid[0:size, 0:size]
+    u, v = (xx + 0.5) / size * 2 - 1, (yy + 0.5) / size * 2 - 1
+    rr = u ** 2 + v ** 2
+    z = np.sqrt(np.clip(1 - rr, 0, 1))
+
+    def noise(cells):
+        return zoom(rng.normal(0, 1, (cells, cells)), size / cells, order=3)[:size, :size]
+
+    if kind == "gas":
+        warp = noise(4) * 0.6 + noise(10) * 0.25
+        tex = 0.5 + 0.5 * np.sin(v * rng.uniform(9, 14) + warp * 1.8) * (0.6 + 0.4 * np.sin(v * 31 + warp))
+    else:
+        tex = noise(5) + noise(12) * 0.6 + noise(30) * 0.3
+        tex = (tex - tex.min()) / (tex.max() - tex.min())
+    base = np.array([int(tint[i:i + 2], 16) for i in (1, 3, 5)]) / 255
+    base = base * 0.6 + base.mean() * 0.4  # mute toward grey
+    col = base * (0.55 + 0.6 * tex[..., None])
+    n = np.stack([u, v, z], -1)
+    L = np.array(light) / np.linalg.norm(light)
+    shade = np.clip((n * L).sum(-1), 0, 1) * 0.95 + 0.03
+    col = col * (shade * (0.65 + 0.35 * z))[..., None]
+    rgba = np.zeros((size, size, 4))
+    rgba[..., :3] = np.clip(col, 0, 1)
+    rgba[..., 3] = np.clip((1 - np.sqrt(rr)) * size / 2, 0, 1)
+    return rgba

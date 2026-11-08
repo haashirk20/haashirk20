@@ -1,0 +1,53 @@
+# Regenerates the contribution snake and the telemetry card once a day,
+# and publishes both to the `output` branch, which the README links to.
+name: profile
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Stars for contribution cells, eaten by an amber snake. Colours match assets/.
+      - uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake-dark.svg?color_snake=#D2AD86&color_dots=#111317,#3a3d44,#7c7f86,#c4c3bf,#ffffff&color_dot_border=#00000000
+            dist/snake-light.svg?color_snake=#8A6235&color_dots=#e6e3dc,#bdbab3,#8a877f,#55534e,#111317&color_dot_border=#00000000
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+
+      - run: pip install -r scripts/requirements.txt
+
+      - run: python scripts/telemetry.py ${{ github.repository_owner }} dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          keep_history: false
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
