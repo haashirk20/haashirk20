@@ -12,19 +12,23 @@
 <tr>
 <td width="50%" valign="top">
 
-<b>Now</b><br>
+<b>Now</b>
+
 AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent RAG platforms on Databricks with LangGraph, and the CI/CD, containers and cloud infrastructure that keep them running.
-<br><br>
+
 <sub>Based in Toronto. Studied computer science at the University of Toronto.</sub>
 
 </td>
 <td width="50%" valign="top">
 
-<b>Mission log</b><br>
+<b>Mission log</b>
+
 <b>AI Solutions Engineer Co-op</b><br>
-<sub>Magna International · Aug 2026 to now</sub><br>
+<sub>Magna International · Aug 2026 to now</sub>
+
 <b>Automation and Systems Analyst Intern</b><br>
-<sub>Perimeter Institute · Aug to Dec 2025</sub><br>
+<sub>Perimeter Institute · Aug to Dec 2025</sub>
+
 <b>Software, Cloud and DevOps Intern</b><br>
 <sub>Perimeter Institute · May to Aug 2025</sub>
 
@@ -41,7 +45,7 @@ AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent R
 <td width="50%" valign="top">
 
 <b>AI and ML</b><br>
-<code>LLMs</code> <code>RAG</code> <code>Multi-agent systems</code> <code>LangGraph</code> <code>LangChain</code> <code>Databricks Mosaic AI</code> <code>Vector Search</code> <code>PyTorch</code> <code>TensorFlow</code> <code>scikit-learn</code> <code>Computer vision / OCR</code>
+<code>LLMs</code> <code>RAG</code> <code>Multi-agent&nbsp;systems</code> <code>LangGraph</code> <code>LangChain</code> <code>Databricks&nbsp;Mosaic&nbsp;AI</code> <code>Vector&nbsp;Search</code> <code>PyTorch</code> <code>TensorFlow</code> <code>scikit-learn</code> <code>Computer&nbsp;vision&nbsp;/&nbsp;OCR</code>
 
 </td>
 <td width="50%" valign="top">
@@ -55,13 +59,13 @@ AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent R
 <td width="50%" valign="top">
 
 <b>CI/CD and automation</b><br>
-<code>GitHub Actions</code> <code>Ansible</code> <code>PowerShell</code> <code>Bash</code> <code>Power Automate</code>
+<code>GitHub&nbsp;Actions</code> <code>Ansible</code> <code>PowerShell</code> <code>Bash</code> <code>Power&nbsp;Automate</code>
 
 </td>
 <td width="50%" valign="top">
 
 <b>Languages and data</b><br>
-<code>Python</code> <code>TypeScript</code> <code>Java</code> <code>Go</code> <code>C</code> <code>PostgreSQL</code> <code>MongoDB</code> <code>FastAPI</code> <code>Next.js</code> <code>React</code> <code>Spring Boot</code>
+<code>Python</code> <code>TypeScript</code> <code>Java</code> <code>Go</code> <code>C</code> <code>PostgreSQL</code> <code>MongoDB</code> <code>FastAPI</code> <code>Next.js</code> <code>React</code> <code>Spring&nbsp;Boot</code>
 
 </td>
 </tr>
@@ -95,7 +99,7 @@ Predicts pass or run from pre-snap Big Data Bowl data, with a gating network ove
 
 <img src="assets/planet-ploggo.png" width="18" height="18" alt=""> <a href="https://github.com/gdgutm/PlogGo"><b>PlogGo</b></a> <sub>2025</sub><br>
 Plogging app for web, iOS and Android that spots litter in photos with a server-side detection model.<br>
-<code>React Native</code> <code>Expo</code> <code>Flask</code> <code>MongoDB</code><br>
+<code>React&nbsp;Native</code> <code>Expo</code> <code>Flask</code> <code>MongoDB</code><br>
 <sub><a href="https://github.com/gdgutm/PlogGo">Repo</a></sub>
 
 </td>
@@ -103,7 +107,7 @@ Plogging app for web, iOS and Android that spots litter in photos with a server-
 
 <img src="assets/planet-discover-me.png" width="18" height="18" alt=""> <a href="https://github.com/AviGhat/deerhacks2025"><b>Discover Me</b></a> <sub>2025</sub><br>
 DeerHacks IV app that matches travellers to destinations from a personality quiz, with Google Maps and Street View.<br>
-<code>Next.js</code> <code>OpenAI API</code> <code>Google Maps</code><br>
+<code>Next.js</code> <code>OpenAI&nbsp;API</code> <code>Google&nbsp;Maps</code><br>
 <sub><a href="https://github.com/AviGhat/deerhacks2025">Repo</a> · <a href="https://deerhacks2025.vercel.app/">Live site</a></sub>
 
 </td>
