@@ -45,7 +45,7 @@ AI Solutions Engineer Co-op at <b>Magna International</b>. I build multi-agent R
 <td width="50%" valign="top">
 
 <b>AI and ML</b><br>
-<code>LLMs</code> <code>RAG</code> <code>Multi-agent&nbsp;systems</code> <code>LangGraph</code> <code>LangChain</code> <code>Databricks&nbsp;Mosaic&nbsp;AI</code> <code>Vector&nbsp;Search</code> <code>PyTorch</code> <code>TensorFlow</code> <code>scikit-learn</code> <code>Computer&nbsp;vision&nbsp;/&nbsp;OCR</code>
+<code>LLMs</code> <code>RAG</code> <code>Multi&#8209;agent&nbsp;systems</code> <code>LangGraph</code> <code>LangChain</code> <code>Databricks&nbsp;Mosaic&nbsp;AI</code> <code>Vector&nbsp;Search</code> <code>PyTorch</code> <code>TensorFlow</code> <code>scikit&#8209;learn</code> <code>Computer&nbsp;vision&nbsp;/&nbsp;OCR</code>
 
 </td>
 <td width="50%" valign="top">
