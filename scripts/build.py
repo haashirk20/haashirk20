@@ -417,7 +417,7 @@ PROJECTS = [
      "pitch": "Anonymous text chat roulette. Socket.IO pairs strangers into private rooms and re-queues them on a swap.",
      "stack": ["React", "Express", "Socket.IO", "Docker"], "demo": None, "repo": "https://github.com/haashirk20/texchange"},
 ]
-PW, PH = W // 2, 206  # project card size: two per row
+PW, PH = W // 2, 222  # project card size: two per row
 
 
 def project(t, p):
